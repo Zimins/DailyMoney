@@ -5,4 +5,11 @@
     <string name="default_sum">0원</string>
     <string name="default_remains">0원</string>
     <string name="default_date">7월 28</string>
+    <string name="settings">settings</string>
+
+    <string-array name="main_modes">
+        <item>Daily</item>
+        <item>Monthly</item>
+        <item>Summary</item>
+    </string-array>
 </resources>
