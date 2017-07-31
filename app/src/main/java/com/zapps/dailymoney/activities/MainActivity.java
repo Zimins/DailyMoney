@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 .VERTICAL, false);
         dailyList = (RecyclerView) findViewById(R.id.daily_list);
         dailyList.setLayoutManager(linearLayoutManager);
-        dailyList.setAdapter(new DailyListAdapter(smsItems));
+        dailyList.setAdapter(new DailyListAdapter(smsItems, dailyList));
 
     }
 

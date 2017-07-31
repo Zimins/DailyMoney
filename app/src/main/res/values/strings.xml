@@ -6,6 +6,10 @@
     <string name="default_remains">0원</string>
     <string name="default_date">7월 28</string>
     <string name="settings">settings</string>
+    <string name="imageDescription">itemImage</string>
+    <string name="tags">tags</string>
+    <string name="location">location</string>
+    <string name="appicon">appIcon</string>
 
     <string-array name="main_modes">
         <item>Daily</item>

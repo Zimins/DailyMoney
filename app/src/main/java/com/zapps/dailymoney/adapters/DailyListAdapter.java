@@ -12,16 +12,15 @@ import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
 
-/**
- * Created by Zimincom on 2017. 7. 31..
- */
 
 public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.ViewHolder>{
 
-    ArrayList<SMSItem> smsItems;
+    private ArrayList<SMSItem> smsItems;
+    private RecyclerView dailyList;
 
-    public DailyListAdapter(ArrayList<SMSItem> smsItems) {
+    public DailyListAdapter(ArrayList<SMSItem> smsItems, RecyclerView dailyList) {
         this.smsItems = smsItems;
+        this.dailyList = dailyList;
     }
 
     @Override
@@ -33,8 +32,22 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final SMSItem item = smsItems.get(position);
 
+        if (item.isDetail) {
+            holder.details.setVisibility(View.VISIBLE);
+        } else {
+            holder.details.setVisibility(View.GONE);
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item.isDetail = !item.isDetail;
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -45,12 +58,17 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView itemPrice;
+
+        View details;
+
         ImageView itemImage;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             itemName = (TextView) itemView.findViewById(R.id.tv_name);
             itemPrice = (TextView) itemView.findViewById(R.id.tv_price);
+
+            details = itemView.findViewById(R.id.details);
             itemImage = (ImageView) itemView.findViewById(R.id.iv_item);
         }
     }
