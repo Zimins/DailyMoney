@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">데일리머니</string>
+    <string name="appicon">앱아이콘</string>
+    <string name="imageDescription">항목사진</string>
+    <string name="location">위치</string>
+    <string name="remains_text">잔액</string>
+    <string name="settings">설정</string>
+    <string name="tags">분류</string>
+    <string name="withdraw">출금</string>
+
+    <string-array name="main_modes">
+        <item>일별</item>
+        <item>월별</item>
+        <item>통계</item>
+    </string-array>
+</resources>
