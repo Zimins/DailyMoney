@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DailyMoney</string>
+    <string name="withdraw">withdraw</string>
+    <string name="remains_text">remains</string>
+    <string name="default_sum">0원</string>
+    <string name="default_remains">0원</string>
+    <string name="default_date">7월 28</string>
+</resources>
