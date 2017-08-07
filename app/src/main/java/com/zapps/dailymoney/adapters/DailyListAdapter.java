@@ -1,5 +1,6 @@
 package com.zapps.dailymoney.adapters;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,11 +43,13 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                item.isDetail = !item.isDetail;
-                notifyItemChanged(holder.getAdapterPosition());
-            }
+
+                @Override
+                public void onClick(View view) {
+                    item.isDetail = !item.isDetail;
+                    notifyItemChanged(holder.getAdapterPosition());
+                }
+
         });
     }
 
@@ -58,7 +61,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView itemName;
         TextView itemPrice;
-
+        CardView itemCard;
         View details;
 
         ImageView itemImage;
@@ -67,7 +70,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
             super(itemView);
             itemName = (TextView) itemView.findViewById(R.id.tv_name);
             itemPrice = (TextView) itemView.findViewById(R.id.tv_price);
-
+            itemCard = (CardView) itemView.findViewById(R.id.card_item);
             details = itemView.findViewById(R.id.details);
             itemImage = (ImageView) itemView.findViewById(R.id.iv_item);
         }
