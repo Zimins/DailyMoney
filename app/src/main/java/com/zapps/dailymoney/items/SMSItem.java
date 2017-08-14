@@ -9,7 +9,6 @@ public class SMSItem extends RealmObject{
     private int imageSrc;
     private String itemName;
     private String bankName;
-    private String tags;
     private String location;
     public boolean isDetail;
 
