@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -23,17 +22,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView dailyList;
+    DailyListAdapter adapter;
+    Realm realm;
     LinearLayoutManager linearLayoutManager;
     ArrayList<SMSItem> smsItems;
     Calendar calendar;
     TextView dateText;
 
     int month;
-    int date;
+    int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setDateText();
 
         Realm.init(this);
+        realm = Realm.getDefaultInstance();
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -62,12 +65,26 @@ public class MainActivity extends AppCompatActivity {
 
         smsItems = new ArrayList<>();
 
+        smsItems.clear();
+        smsItems.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
+                .findAll());
+
         linearLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager
                 .VERTICAL, false);
         dailyList = (RecyclerView) findViewById(R.id.daily_list);
         dailyList.setLayoutManager(linearLayoutManager);
-        dailyList.setAdapter(new DailyListAdapter(smsItems, dailyList));
+        adapter = new DailyListAdapter(smsItems, dailyList);
+        dailyList.setAdapter(adapter);
 
+        realm.addChangeListener(new RealmChangeListener<Realm>() {
+            @Override
+            public void onChange(Realm realm) {
+                smsItems.clear();
+                smsItems.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
+                        .findAll());
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -75,11 +92,10 @@ public class MainActivity extends AppCompatActivity {
         dateText = (TextView) findViewById(R.id.tv_date);
         calendar = Calendar.getInstance();
 
-        date = calendar.get(Calendar.DATE);
+        day = calendar.get(Calendar.DATE);
         month = calendar.get(Calendar.MONTH) + 1;//month starts from 0
 
-        Log.d("date", date + "/" + month);
-        dateText.setText(month + "/" + "\n" + date);
+        dateText.setText(month + "/" + "\n" + day);
     }
 
     @Override

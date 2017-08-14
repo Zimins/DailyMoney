@@ -33,6 +33,7 @@ public class SMSReceiver extends BroadcastReceiver {
         for (int i = 0; i < messages.length; i++) {
             smsMessage[i] = SmsMessage.createFromPdu((byte[]) messages[i]);
         }
+
         String content = smsMessage[0].getMessageBody().toString();
         final SMSItem smsItem = smsParser.parseSMS(content);
         realm.executeTransactionAsync(new Realm.Transaction() {

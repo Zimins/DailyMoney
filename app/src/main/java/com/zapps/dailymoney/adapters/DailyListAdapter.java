@@ -13,11 +13,18 @@ import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
 
-public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.ViewHolder>{
+
+public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.ViewHolder> {
 
     private ArrayList<SMSItem> smsItems;
     private RecyclerView dailyList;
+    Realm realm;
+
+    {
+        realm = Realm.getDefaultInstance();
+    }
 
     public DailyListAdapter(ArrayList<SMSItem> smsItems, RecyclerView dailyList) {
         this.smsItems = smsItems;
@@ -33,7 +40,7 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final SMSItem item = smsItems.get(position);
 
         if (item.isDetail) {
@@ -42,13 +49,19 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
             holder.details.setVisibility(View.GONE);
         }
 
+        holder.itemName.setText(item.getItemName());
+        holder.itemPrice.setText(String.format("%d won", item.getWithdrawAmount()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    item.isDetail = !item.isDetail;
-                    notifyItemChanged(holder.getAdapterPosition());
-                }
+            @Override
+            public void onClick(View view) {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        item.isDetail = !item.isDetail;
+                    }
+                });
+                notifyItemChanged(position);
+            }
 
         });
     }
