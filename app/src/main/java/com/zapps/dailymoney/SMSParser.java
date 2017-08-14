@@ -55,7 +55,8 @@ public class SMSParser {
         int startIdx = 0;
         int endIdx = token.indexOf('원');
 
-        return Integer.parseInt(token.substring(startIdx, endIdx));
+
+        return Integer.parseInt(token.substring(startIdx, endIdx).replace(",",""));
     }
 
 

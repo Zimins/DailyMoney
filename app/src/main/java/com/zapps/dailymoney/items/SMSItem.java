@@ -14,10 +14,6 @@ public class SMSItem extends RealmObject{
 
 
     public SMSItem(){}
-    public SMSItem(String itemName, int price) {
-        this.itemName = itemName;
-        this.withdrawAmount = price;
-    }
 
     public SMSItem(String bankName, int month, int day, String itemName, int price) {
         this.bankName = bankName;

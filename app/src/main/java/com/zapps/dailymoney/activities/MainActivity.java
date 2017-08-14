@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         smsItems = new ArrayList<>();
 
-        smsItems.add(new SMSItem("coffee", 10000));
-
         linearLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager
                 .VERTICAL, false);
         dailyList = (RecyclerView) findViewById(R.id.daily_list);
