@@ -11,16 +11,19 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import com.zapps.dailymoney.R;
 import com.zapps.dailymoney.adapters.DailyListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView dailyList;
-    DailyListAdapter dailyListAdapter;
     LinearLayoutManager linearLayoutManager;
     ArrayList<SMSItem> smsItems;
 
@@ -39,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
                 .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(modesAdapter);
+
+        Realm.init(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
 
         smsItems = new ArrayList<>();
 
