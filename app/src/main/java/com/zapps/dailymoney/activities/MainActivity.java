@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -18,6 +20,7 @@ import com.zapps.dailymoney.adapters.DailyListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import io.realm.Realm;
 
@@ -26,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView dailyList;
     LinearLayoutManager linearLayoutManager;
     ArrayList<SMSItem> smsItems;
+    Calendar calendar;
+    TextView dateText;
+
+    int month;
+    int date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(modesAdapter);
 
+        setDateText();
+
         Realm.init(this);
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
@@ -53,12 +63,6 @@ public class MainActivity extends AppCompatActivity {
         smsItems = new ArrayList<>();
 
         smsItems.add(new SMSItem("coffee", 10000));
-        smsItems.add(new SMSItem("coffee", 10000));
-        smsItems.add(new SMSItem("coffee", 10000));
-        smsItems.add(new SMSItem("coffee", 10000));
-        smsItems.add(new SMSItem("coffee", 10000));
-        smsItems.add(new SMSItem("coffee", 10000));
-
 
         linearLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager
                 .VERTICAL, false);
@@ -66,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
         dailyList.setLayoutManager(linearLayoutManager);
         dailyList.setAdapter(new DailyListAdapter(smsItems, dailyList));
 
+    }
+
+
+    private void setDateText() {
+        dateText = (TextView) findViewById(R.id.tv_date);
+        calendar = Calendar.getInstance();
+
+        date = calendar.get(Calendar.DATE);
+        month = calendar.get(Calendar.MONTH) + 1;//month starts from 0
+
+        Log.d("date", date + "/" + month);
+        dateText.setText(month + "/" + "\n" + date);
     }
 
     @Override
