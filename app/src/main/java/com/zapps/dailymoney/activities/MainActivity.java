@@ -6,14 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+import com.zapps.dailymoney.DailyViewFragment;
+import com.zapps.dailymoney.MonthlyViewFragment;
 import com.zapps.dailymoney.R;
 import com.zapps.dailymoney.adapters.DailyListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
@@ -24,6 +29,8 @@ import java.util.Calendar;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
+import static com.zapps.dailymoney.R.id.spinner;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView dailyList;
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<SMSItem> smsItems;
     Calendar calendar;
     TextView dateText;
+    Spinner viewModeSpinner;
 
     int month;
     int day;
@@ -48,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        viewModeSpinner = (Spinner) findViewById(spinner);
         ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
                 .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(modesAdapter);
+        viewModeSpinner.setAdapter(modesAdapter);
 
         setDateText();
 
@@ -64,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                         .build());
 
         smsItems = new ArrayList<>();
-
         smsItems.clear();
         smsItems.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
                 .findAll());
@@ -83,6 +90,39 @@ public class MainActivity extends AppCompatActivity {
                 smsItems.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
                         .findAll());
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        viewModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (pos == 0) {
+                    DailyViewFragment fragment = new DailyViewFragment();
+                    Log.d("spinner", pos + "item");
+//                    Bundle bundle = new Bundle();
+//                    fragment.setArguments(bundle);
+                    android.app.FragmentTransaction transaction = getFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.main_fragment, fragment);
+                    transaction.addToBackStack(null);
+
+                    transaction.commit();
+                } else if (pos == 1) {
+
+                    MonthlyViewFragment fragment = new MonthlyViewFragment();
+                    Log.d("spinner", pos + "item");
+                    android.app.FragmentTransaction transaction = getFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.main_fragment, fragment);
+                    transaction.addToBackStack(null);
+
+                    transaction.commit();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
