@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
         viewModeSpinner.setAdapter(modesAdapter);
 
-        setDateText();
 
         Realm.init(this);
         realm = Realm.getDefaultInstance();
@@ -103,17 +102,20 @@ public class MainActivity extends AppCompatActivity {
 //                    fragment.setArguments(bundle);
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
-                    transaction.replace(R.id.main_fragment, fragment);
+                    transaction.replace(R.id.main_frame, fragment);
                     transaction.addToBackStack(null);
 
                     transaction.commit();
+
+                    setDateText();
+
                 } else if (pos == 1) {
 
                     MonthlyViewFragment fragment = new MonthlyViewFragment();
                     Log.d("spinner", pos + "item");
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
-                    transaction.replace(R.id.main_fragment, fragment);
+                    transaction.replace(R.id.main_frame, fragment);
                     transaction.addToBackStack(null);
 
                     transaction.commit();

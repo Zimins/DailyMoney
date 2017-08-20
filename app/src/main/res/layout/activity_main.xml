@@ -32,22 +32,21 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <fragment
-        android:id="@+id/main_fragment"
-        android:name="com.zapps.dailymoney.DailyViewFragment"
+    <FrameLayout
+        android:id="@+id/main_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        tools:layout="@layout/fragment_daily"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout="@layout/fragment_daily"/>
 
 
 </android.support.constraint.ConstraintLayout>
