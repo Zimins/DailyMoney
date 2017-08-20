@@ -48,6 +48,9 @@ public class DailyViewFragment extends Fragment {
 
         RecyclerView dailyList;
 
+
+        setDate();
+
         items = new ArrayList<>();
         items.clear();
         items.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
@@ -60,7 +63,6 @@ public class DailyViewFragment extends Fragment {
         adapter = new DailyListAdapter(items, dailyList);
         dailyList.setAdapter(adapter);
 
-        setDateText();
 
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
@@ -73,7 +75,7 @@ public class DailyViewFragment extends Fragment {
         });
     }
 
-    private void setDateText() {
+    private void setDate() {
         dateText = (TextView) getActivity().findViewById(R.id.tv_date);
         calendar = Calendar.getInstance();
 
