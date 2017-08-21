@@ -39,7 +39,7 @@ public class SMSItem extends RealmObject{
         return day;
     }
 
-    public void setWithdrawAmount (int withdrawAmount) {
+    public void setWithdrawAmount(int withdrawAmount) {
         this.withdrawAmount = withdrawAmount;
     }
 

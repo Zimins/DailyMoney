@@ -12,8 +12,8 @@
     <string name="appicon">appIcon</string>
 
     <string-array name="main_modes">
+        <item>Today</item>
         <item>Daily</item>
-        <item>Monthly</item>
         <item>Summary</item>
     </string-array>
 </resources>

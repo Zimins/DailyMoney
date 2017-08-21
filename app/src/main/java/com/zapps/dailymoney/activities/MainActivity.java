@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
-import com.zapps.dailymoney.DailyViewFragment;
+import com.zapps.dailymoney.TodayViewFragment;
 import com.zapps.dailymoney.MonthlyViewFragment;
 import com.zapps.dailymoney.R;
 
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos == 0) {
-                    DailyViewFragment fragment = new DailyViewFragment();
+                    TodayViewFragment fragment = new TodayViewFragment();
                     Log.d("spinner", pos + "item");
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (pos == 1) {
 
                     MonthlyViewFragment fragment = new MonthlyViewFragment();
+                    Bundle bundle = new Bundle();
                     Log.d("spinner", pos + "item");
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();

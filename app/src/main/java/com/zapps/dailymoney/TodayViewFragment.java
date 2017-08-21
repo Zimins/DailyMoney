@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zapps.dailymoney.adapters.DailyListAdapter;
+import com.zapps.dailymoney.adapters.TodayListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.Calendar;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
-public class DailyViewFragment extends Fragment {
+public class TodayViewFragment extends Fragment {
 
     RecyclerView dailyList;
-    DailyListAdapter adapter;
+    TodayListAdapter adapter;
     LinearLayoutManager layoutManager;
     ArrayList<SMSItem> items;
     Realm realm;
@@ -60,7 +60,7 @@ public class DailyViewFragment extends Fragment {
                 .VERTICAL, false);
         dailyList = (RecyclerView) getActivity().findViewById(R.id.daily_list);
         dailyList.setLayoutManager(layoutManager);
-        adapter = new DailyListAdapter(items, dailyList);
+        adapter = new TodayListAdapter(items, dailyList);
         dailyList.setAdapter(adapter);
 
 

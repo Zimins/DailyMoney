@@ -10,8 +10,8 @@
     <string name="withdraw">출금</string>
 
     <string-array name="main_modes">
+        <item>오늘</item>
         <item>일별</item>
-        <item>월별</item>
         <item>통계</item>
     </string-array>
 </resources>
