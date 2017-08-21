@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zapps.dailymoney.adapters.TodayListAdapter;
@@ -20,7 +21,7 @@ import java.util.Calendar;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
-public class TodayViewFragment extends Fragment {
+public class TodayViewFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView dailyList;
     TodayListAdapter adapter;
@@ -28,7 +29,10 @@ public class TodayViewFragment extends Fragment {
     ArrayList<SMSItem> items;
     Realm realm;
 
+    TextView monthText;
     TextView dateText;
+    ImageButton yesterdayButton;
+    ImageButton tomorrowButton;
 
     Calendar calendar;
     int month;
@@ -37,7 +41,7 @@ public class TodayViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_daily, container, false);
+        return inflater.inflate(R.layout.fragment_today, container, false);
     }
 
     @Override
@@ -48,15 +52,22 @@ public class TodayViewFragment extends Fragment {
 
         RecyclerView dailyList;
 
+        monthText = (TextView) getActivity().findViewById(R.id.tv_month);
+        dateText = (TextView) getActivity().findViewById(R.id.tv_date);
+        yesterdayButton = (ImageButton) getActivity().findViewById(R.id.button_yesterday);
+        tomorrowButton = (ImageButton) getActivity().findViewById(R.id.button_tomorrow);
 
-        setDate();
+        yesterdayButton.setOnClickListener(this);
+        tomorrowButton.setOnClickListener(this);
+
+        setToday();
 
         items = new ArrayList<>();
         items.clear();
-        items.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
+        items.addAll(realm.where(SMSItem.class).equalTo("month", month + 1).equalTo("day", day)
                 .findAll());
 
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager
                 .VERTICAL, false);
         dailyList = (RecyclerView) getActivity().findViewById(R.id.daily_list);
         dailyList.setLayoutManager(layoutManager);
@@ -67,26 +78,62 @@ public class TodayViewFragment extends Fragment {
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm realm) {
-                items.clear();
-                items.addAll(realm.where(SMSItem.class).equalTo("month", month).equalTo("day", day)
-                        .findAll());
-                adapter.notifyDataSetChanged();
+                listData(month, day);
             }
         });
     }
 
-    private void setDate() {
-        dateText = (TextView) getActivity().findViewById(R.id.tv_date);
+    private void setToday() {
+
         calendar = Calendar.getInstance();
 
         day = calendar.get(Calendar.DATE);
-        month = calendar.get(Calendar.MONTH) + 1;//month starts from 0
+        month = calendar.get(Calendar.MONTH);//month starts from 0
 
-        dateText.setText(month + "/" + "\n" + day);
+        setDateText(month, day);
+    }
+
+    private void setDateText(int month, int day) {
+        monthText.setText((month + 1) + "월");
+        dateText.setText(day + "");
+    }
+
+    private void listData(int month, int day) {
+        items.clear();
+        items.addAll(realm.where(SMSItem.class).equalTo("month", month + 1).equalTo("day", day)
+                .findAll());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context){
         super.onAttach(context);
     }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        if (id == R.id.button_yesterday) {
+            if (day > calendar.getActualMinimum(Calendar.DAY_OF_MONTH)) {
+                setDateText(month, --day);
+                listData(month, day);
+            } else {
+                calendar.set(Calendar.MONTH, --month);
+                day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                setDateText(month, day);
+            }
+        } else if (id == R.id.button_tomorrow) {
+            if (day < calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                setDateText(month, ++day);
+                listData(month, day);
+            } else {
+                calendar.set(Calendar.MONTH, ++month);
+                day = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
+                setDateText(month, day);
+            }
+        }
+    }
+
+
 }
