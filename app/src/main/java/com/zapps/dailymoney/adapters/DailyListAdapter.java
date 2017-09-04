@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.zapps.dailymoney.DayInfo;
 import com.zapps.dailymoney.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Zimincom on 2017. 8. 21..
@@ -34,7 +36,9 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.dateText.setText(dayInfos.get(position).getDay() + "");
-        holder.sumOfDay.setText(dayInfos.get(position).getSumOfDay() + "");
+        String sumText = NumberFormat.getNumberInstance(Locale.KOREA)
+                .format(dayInfos.get(position).getSumOfDay());
+        holder.sumOfDay.setText(sumText + "원");
     }
 
     @Override

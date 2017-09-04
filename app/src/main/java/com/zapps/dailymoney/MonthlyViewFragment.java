@@ -29,7 +29,6 @@ public class MonthlyViewFragment extends Fragment {
     RecyclerView dailyListView;
     DailyListAdapter listAdapter;
 
-    DayInfo dayInfo;
     ArrayList<DayInfo> dayInfos;
     Realm realm;
     RealmResults<SMSItem> items;
@@ -55,7 +54,6 @@ public class MonthlyViewFragment extends Fragment {
         month = Calendar.getInstance().get(Calendar.MONTH)+1;
         day = Calendar.getInstance().get(Calendar.DATE);
 
-
         createDayInfos();
 
         realm.addChangeListener(new RealmChangeListener<Realm>() {
@@ -73,8 +71,6 @@ public class MonthlyViewFragment extends Fragment {
         dailyListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
                 .VERTICAL, false));
         dailyListView.setAdapter(listAdapter);
-
-        //make daily result
 
     }
 

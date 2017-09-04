@@ -74,7 +74,6 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
         adapter = new TodayListAdapter(items, dailyList);
         dailyList.setAdapter(adapter);
 
-
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm realm) {
