@@ -28,13 +28,12 @@ import io.realm.RealmResults;
 
 public class MonthlyViewFragment extends Fragment {
 
-    RecyclerView dailyListView;
+    RecyclerView listView;
     DailyListAdapter listAdapter;
 
     ArrayList<DayInfo> dayInfos;
     Realm realm;
     RealmResults<SMSItem> items;
-    Bundle args;
 
     int month;
     int day;
@@ -51,6 +50,7 @@ public class MonthlyViewFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         realm = Realm.getDefaultInstance();
 
+        // TODO: 2017. 9. 4. oncreate 정리 (recycler view)
         dayInfos = new ArrayList<>();
 
         month = Calendar.getInstance().get(Calendar.MONTH)+1;
@@ -68,11 +68,11 @@ public class MonthlyViewFragment extends Fragment {
         });
 
 
-        dailyListView = (RecyclerView) getActivity().findViewById(R.id.daily_list);
+        listView = (RecyclerView) getActivity().findViewById(R.id.daily_list);
         listAdapter = new DailyListAdapter(dayInfos);
-        dailyListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
+        listView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
                 .VERTICAL, false));
-        dailyListView.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);
 
     }
 

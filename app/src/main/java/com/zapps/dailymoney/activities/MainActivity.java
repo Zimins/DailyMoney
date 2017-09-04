@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: 2017. 9. 4. oncreate
+        // TODO: 2017. 9. 4. won, 원 통일 (영문 ,한글 )
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,11 +130,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setMonthResult() {
+        // TODO: 2017. 9. 4. budget 설정에서 가져오기  + month 할당
         int budget = 100000;
         int sumOfMonth = realm.where(SMSItem.class)
                 .equalTo("month", 9)
                 .sum("withdrawAmount").intValue();
         int remain = budget - sumOfMonth;
+        // TODO: 2017. 9. 4. won, 원 구별하여 사용 (통일)
         withdrawText.setText(sumOfMonth + "won");
         remainsText.setText(remain + "won");
     }

@@ -6,6 +6,8 @@ package com.zapps.dailymoney;
 
 public class DistinctInfo {
 
+    // TODO: 2017. 9. 4. name, package
+
     private String itemName;
     private int sum;
 

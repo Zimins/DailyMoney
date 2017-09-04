@@ -50,6 +50,7 @@ public class TodayListAdapter extends RecyclerView.Adapter<TodayListAdapter.View
         }
 
         holder.itemName.setText(item.getItemName());
+        // TODO: 2017. 9. 4. 하드코딩 변경 by strings.xml(%d 이용)
         holder.itemPrice.setText(String.format("%d won", item.getWithdrawAmount()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

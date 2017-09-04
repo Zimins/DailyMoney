@@ -19,6 +19,7 @@ public class SMSParser {
         String[] tokens = msgContent.split("\n");
 
         String cardName = tokens[cardIndex];
+        // TODO: 2017. 9. 4. 날짜 동적으로
         int year = 2017;
         int month = getMonth(tokens[dateIndex]);
         int day = getDay(tokens[dateIndex]);

@@ -29,7 +29,6 @@ import io.realm.RealmResults;
 public class OverviewFragment extends Fragment {
 
     Realm realm;
-    RealmResults<SMSItem> items;
 
     RecyclerView sumListView;
     OverviewListAdapter adapter;
@@ -47,8 +46,7 @@ public class OverviewFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         realm = Realm.getDefaultInstance();
 
-
-
+        // TODO: 2017. 9. 4. oncreate 정리
 
         //아이템 이름을 검색(중복 없이)
         RealmResults<SMSItem>  distinctResults = realm.where(SMSItem.class).distinct("itemName");

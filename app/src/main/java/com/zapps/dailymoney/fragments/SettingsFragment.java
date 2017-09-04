@@ -23,7 +23,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
         PreferenceScreen preferenceScreen = getPreferenceScreen();
 
-        Log.d("preference", "created");
         int count = preferenceScreen.getPreferenceCount();
 
         for (int i = 0; i < count; i++) {

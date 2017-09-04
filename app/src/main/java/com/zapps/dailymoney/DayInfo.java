@@ -6,6 +6,8 @@ package com.zapps.dailymoney;
 
 public class DayInfo {
 
+    // TODO: 2017. 9. 4. 이름 변경
+
     int month;
     int day;
     int sumOfDay;

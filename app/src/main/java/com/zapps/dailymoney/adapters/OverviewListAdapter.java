@@ -38,6 +38,7 @@ public class OverviewListAdapter extends RecyclerView.Adapter<OverviewListAdapte
         holder.dateText.setText(infos.get(position).getItemName() + "");
         String sumText = NumberFormat.getNumberInstance(Locale.KOREA)
                 .format(infos.get(position).getSum());
+        // TODO: 2017. 9. 4. 원 해결
         holder.sumOfDay.setText(sumText + "원");
     }
 

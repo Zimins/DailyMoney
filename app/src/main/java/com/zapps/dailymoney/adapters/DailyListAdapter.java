@@ -34,7 +34,6 @@ public class DailyListAdapter extends RecyclerView.Adapter<DailyListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.dateText.setText(dayInfos.get(position).getDay() + "");
         String sumText = NumberFormat.getNumberInstance(Locale.KOREA)
                 .format(dayInfos.get(position).getSumOfDay());

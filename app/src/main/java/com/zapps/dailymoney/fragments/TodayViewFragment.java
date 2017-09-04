@@ -50,6 +50,7 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
         super.onActivityCreated(savedInstanceState);
 
         realm = Realm.getDefaultInstance();
+        // TODO: 2017. 9. 4. oncreate helper
 
         RecyclerView dailyList;
 
@@ -83,6 +84,8 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
         });
     }
 
+    // TODO: 2017. 9. 4. method name
+
     private void setToday() {
 
         calendar = Calendar.getInstance();
@@ -114,6 +117,7 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         int id = v.getId();
 
+        // TODO: 2017. 9. 4. calender 로 변경해보기
         if (id == R.id.button_yesterday) {
             if (day > calendar.getActualMinimum(Calendar.DAY_OF_MONTH)) {
                 setDateText(month, --day);
