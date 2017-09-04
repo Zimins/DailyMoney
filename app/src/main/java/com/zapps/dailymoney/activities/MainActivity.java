@@ -4,21 +4,24 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
-import com.zapps.dailymoney.TodayViewFragment;
-import com.zapps.dailymoney.MonthlyViewFragment;
 import com.zapps.dailymoney.R;
+import com.zapps.dailymoney.fragments.MonthlyViewFragment;
+import com.zapps.dailymoney.fragments.OverviewFragment;
+import com.zapps.dailymoney.fragments.TodayViewFragment;
+import com.zapps.dailymoney.items.SMSItem;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 
 import static com.zapps.dailymoney.R.id.spinner;
 
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     Realm realm;
     Spinner viewModeSpinner;
+    TextView withdrawText;
+    TextView remainsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+
+        withdrawText = (TextView) findViewById(R.id.tv_withdraw);
+        remainsText = (TextView) findViewById(R.id.tv_remains);
 
         viewModeSpinner = (Spinner) findViewById(spinner);
         ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
@@ -51,32 +59,42 @@ public class MainActivity extends AppCompatActivity {
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                         .build());
 
+        setMonthResult();
+        realm.addChangeListener(new RealmChangeListener<Realm>() {
+            @Override
+            public void onChange(Realm realm) {
+                setMonthResult();
+            }
+        });
         viewModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos == 0) {
                     TodayViewFragment fragment = new TodayViewFragment();
-                    Log.d("spinner", pos + "item");
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.addToBackStack(null);
-
                     transaction.commit();
-
 
                 } else if (pos == 1) {
 
                     MonthlyViewFragment fragment = new MonthlyViewFragment();
-                    Bundle bundle = new Bundle();
-                    Log.d("spinner", pos + "item");
                     android.app.FragmentTransaction transaction = getFragmentManager()
                             .beginTransaction();
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.addToBackStack(null);
+                    transaction.commit();
+                } else if (pos == 2) {
 
+                    OverviewFragment fragment = new OverviewFragment();
+                    android.app.FragmentTransaction transaction = getFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.main_frame, fragment);
+                    transaction.addToBackStack(null);
                     transaction.commit();
                 }
+
             }
 
             @Override
@@ -96,5 +114,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setMonthResult() {
+        int budget = 100000;
+        int sumOfMonth = realm.where(SMSItem.class)
+                .equalTo("month", 9)
+                .sum("withdrawAmount").intValue();
+        int remain = budget - sumOfMonth;
+        withdrawText.setText(sumOfMonth + "won");
+        remainsText.setText(remain + "won");
     }
 }

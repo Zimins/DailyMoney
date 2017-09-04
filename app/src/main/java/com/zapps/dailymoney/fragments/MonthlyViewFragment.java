@@ -1,4 +1,4 @@
-package com.zapps.dailymoney;
+package com.zapps.dailymoney.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zapps.dailymoney.DayInfo;
+import com.zapps.dailymoney.R;
 import com.zapps.dailymoney.adapters.DailyListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
 

@@ -1,4 +1,4 @@
-package com.zapps.dailymoney;
+package com.zapps.dailymoney.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.zapps.dailymoney.R;
 import com.zapps.dailymoney.adapters.TodayListAdapter;
 import com.zapps.dailymoney.items.SMSItem;
 
