@@ -55,11 +55,7 @@ public class OverviewFragment extends Fragment {
         }
         createDistinctInfos();
 
-        sumListView = (RecyclerView) getActivity().findViewById(R.id.sum_list);
-        sumListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
-                .VERTICAL, false));
-        adapter = new OverviewListAdapter(distinctInfos);
-        sumListView.setAdapter(adapter);
+        bindRecycler();
 
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
@@ -70,6 +66,14 @@ public class OverviewFragment extends Fragment {
             }
         });
 
+    }
+    private void bindRecycler() {
+
+        sumListView = (RecyclerView) getActivity().findViewById(R.id.sum_list);
+        sumListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
+                .VERTICAL, false));
+        adapter = new OverviewListAdapter(distinctInfos, getContext());
+        sumListView.setAdapter(adapter);
     }
 
     void createDistinctInfos () {

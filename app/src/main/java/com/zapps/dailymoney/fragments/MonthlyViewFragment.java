@@ -18,6 +18,8 @@ import com.zapps.dailymoney.items.SMSItem;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -28,7 +30,7 @@ import io.realm.RealmResults;
 
 public class MonthlyViewFragment extends Fragment {
 
-    RecyclerView listView;
+    @BindView(R.id.daily_list) RecyclerView listView;
     DailyListAdapter listAdapter;
 
     ArrayList<DayInfo> dayInfos;
@@ -42,7 +44,9 @@ public class MonthlyViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_daily, null, false);
+        View view = inflater.inflate(R.layout.fragment_daily, null, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -67,16 +71,18 @@ public class MonthlyViewFragment extends Fragment {
             }
         });
 
+        bindRecycler(dayInfos);
+    }
 
+    private void bindRecycler(ArrayList<DayInfo> dayInfos) {
         listView = (RecyclerView) getActivity().findViewById(R.id.daily_list);
         listAdapter = new DailyListAdapter(dayInfos);
         listView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager
                 .VERTICAL, false));
         listView.setAdapter(listAdapter);
-
     }
 
-    void createDayInfos() {
+    private void createDayInfos() {
          for (int i = 0; i < 31; i++) {
             items = realm.where(SMSItem.class)
                     .equalTo("month", month)

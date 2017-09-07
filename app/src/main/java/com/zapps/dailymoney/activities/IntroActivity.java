@@ -16,8 +16,6 @@ public class IntroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        // TODO: 2017. 7. 31. wait for network information
-
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

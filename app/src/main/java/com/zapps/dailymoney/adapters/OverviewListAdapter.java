@@ -1,5 +1,6 @@
 package com.zapps.dailymoney.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,10 @@ import java.util.Locale;
 public class OverviewListAdapter extends RecyclerView.Adapter<OverviewListAdapter.ViewHolder> {
 
     ArrayList<DistinctInfo> infos;
-
-    public OverviewListAdapter(ArrayList<DistinctInfo> infos) {
+    Context context;
+    public OverviewListAdapter(ArrayList<DistinctInfo> infos, Context context) {
         this.infos = infos;
+        this.context = context;
     }
 
     @Override
@@ -38,8 +40,7 @@ public class OverviewListAdapter extends RecyclerView.Adapter<OverviewListAdapte
         holder.dateText.setText(infos.get(position).getItemName() + "");
         String sumText = NumberFormat.getNumberInstance(Locale.KOREA)
                 .format(infos.get(position).getSum());
-        // TODO: 2017. 9. 4. 원 해결
-        holder.sumOfDay.setText(sumText + "원");
+        holder.sumOfDay.setText(sumText + context.getString(R.string.unit_won));
     }
 
     @Override

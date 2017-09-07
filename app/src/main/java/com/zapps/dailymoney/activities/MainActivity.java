@@ -34,25 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: 2017. 9. 4. oncreate
-        // TODO: 2017. 9. 4. won, 원 통일 (영문 ,한글 )
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-
-
-        ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
-                .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
-        viewModeSpinner.setAdapter(modesAdapter);
-
         Realm.init(this);
+        setToolbar();
+
         realm = Realm.getDefaultInstance();
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
@@ -67,8 +54,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
+                .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
+        viewModeSpinner.setAdapter(modesAdapter);
+
+
     }
 
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
     @OnItemSelected(R.id.spinner)
     public void onSpinnerClicked(int pos) {
         if (pos == 0) {
@@ -128,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 .equalTo("month", 9)
                 .sum("withdrawAmount").intValue();
         int remain = budget - sumOfMonth;
-        // TODO: 2017. 9. 4. won, 원 구별하여 사용 (통일)
-        withdrawText.setText(sumOfMonth + "won");
-        remainsText.setText(remain + "won");
+        withdrawText.setText(sumOfMonth + getString(R.string.unit_won));
+        remainsText.setText(remain + getString(R.string.unit_won));
     }
 }

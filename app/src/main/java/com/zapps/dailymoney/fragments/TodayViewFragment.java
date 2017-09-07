@@ -19,21 +19,23 @@ import com.zapps.dailymoney.items.SMSItem;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
 public class TodayViewFragment extends Fragment implements View.OnClickListener {
 
-    RecyclerView dailyList;
     TodayListAdapter adapter;
     LinearLayoutManager layoutManager;
     ArrayList<SMSItem> items;
     Realm realm;
+    @BindView(R.id.daily_list) RecyclerView dailyList;
 
-    TextView monthText;
-    TextView dateText;
-    ImageButton yesterdayButton;
-    ImageButton tomorrowButton;
+    @BindView(R.id.tv_month) TextView monthText;
+    @BindView(R.id.tv_date) TextView dateText;
+    @BindView(R.id.button_yesterday) ImageButton yesterdayButton;
+    @BindView(R.id.button_tomorrow) ImageButton tomorrowButton;
 
     Calendar calendar;
     int month;
@@ -42,7 +44,9 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_today, container, false);
+        View view = inflater.inflate(R.layout.fragment_today, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -51,13 +55,6 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
 
         realm = Realm.getDefaultInstance();
         // TODO: 2017. 9. 4. oncreate helper
-
-        RecyclerView dailyList;
-
-        monthText = (TextView) getActivity().findViewById(R.id.tv_month);
-        dateText = (TextView) getActivity().findViewById(R.id.tv_date);
-        yesterdayButton = (ImageButton) getActivity().findViewById(R.id.button_yesterday);
-        tomorrowButton = (ImageButton) getActivity().findViewById(R.id.button_tomorrow);
 
         yesterdayButton.setOnClickListener(this);
         tomorrowButton.setOnClickListener(this);
@@ -69,12 +66,7 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
         items.addAll(realm.where(SMSItem.class).equalTo("month", month + 1).equalTo("day", day)
                 .findAll());
 
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager
-                .VERTICAL, false);
-        dailyList = (RecyclerView) getActivity().findViewById(R.id.daily_list);
-        dailyList.setLayoutManager(layoutManager);
-        adapter = new TodayListAdapter(items, dailyList);
-        dailyList.setAdapter(adapter);
+        bindRecycler();
 
         realm.addChangeListener(new RealmChangeListener<Realm>() {
             @Override
@@ -84,6 +76,14 @@ public class TodayViewFragment extends Fragment implements View.OnClickListener 
         });
     }
 
+    private void bindRecycler() {
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager
+                .VERTICAL, false);
+        dailyList.setLayoutManager(layoutManager);
+        adapter = new TodayListAdapter(items, dailyList);
+        dailyList.setAdapter(adapter);
+
+    }
     // TODO: 2017. 9. 4. method name
 
     private void setToday() {
