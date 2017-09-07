@@ -1,9 +1,11 @@
 package com.zapps.dailymoney.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,8 @@ import com.zapps.dailymoney.fragments.MonthlyViewFragment;
 import com.zapps.dailymoney.fragments.OverviewFragment;
 import com.zapps.dailymoney.fragments.TodayViewFragment;
 import com.zapps.dailymoney.items.SMSItem;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setMonthResult() {
         // TODO: 2017. 9. 4. budget 설정에서 가져오기  + month 할당
-        int budget = 100000;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int budget = Integer.parseInt(preferences.getString("key_budget", "0"));
         int sumOfMonth = realm.where(SMSItem.class)
-                .equalTo("month", 9)
+                .equalTo("month", Calendar.getInstance().get(Calendar.MONTH)+1)
                 .sum("withdrawAmount").intValue();
         int remain = budget - sumOfMonth;
         withdrawText.setText(sumOfMonth + getString(R.string.unit_won));

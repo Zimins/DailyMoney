@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zapps.dailymoney.DayInfo;
 import com.zapps.dailymoney.R;
@@ -17,6 +18,7 @@ import com.zapps.dailymoney.items.SMSItem;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +33,7 @@ import io.realm.RealmResults;
 public class MonthlyViewFragment extends Fragment {
 
     @BindView(R.id.daily_list) RecyclerView listView;
+    @BindView(R.id.tv_month) TextView monthLabel;
     DailyListAdapter listAdapter;
 
     ArrayList<DayInfo> dayInfos;
@@ -59,7 +62,8 @@ public class MonthlyViewFragment extends Fragment {
 
         month = Calendar.getInstance().get(Calendar.MONTH)+1;
         day = Calendar.getInstance().get(Calendar.DATE);
-
+        String monthName = (String) android.text.format.DateFormat.format("MMMM", new Date());
+        monthLabel.setText(monthName);
         createDayInfos();
 
         realm.addChangeListener(new RealmChangeListener<Realm>() {
