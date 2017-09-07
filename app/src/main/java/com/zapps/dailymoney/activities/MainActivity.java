@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,17 +19,18 @@ import com.zapps.dailymoney.fragments.OverviewFragment;
 import com.zapps.dailymoney.fragments.TodayViewFragment;
 import com.zapps.dailymoney.items.SMSItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-
-import static com.zapps.dailymoney.R.id.spinner;
 
 public class MainActivity extends AppCompatActivity {
 
     Realm realm;
-    Spinner viewModeSpinner;
-    TextView withdrawText;
-    TextView remainsText;
+    @BindView(R.id.spinner) Spinner viewModeSpinner;
+    @BindView(R.id.tv_withdraw) TextView withdrawText;
+    @BindView(R.id.tv_remains) TextView remainsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         // TODO: 2017. 9. 4. won, 원 통일 (영문 ,한글 )
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -46,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        withdrawText = (TextView) findViewById(R.id.tv_withdraw);
-        remainsText = (TextView) findViewById(R.id.tv_remains);
 
-        viewModeSpinner = (Spinner) findViewById(spinner);
         ArrayAdapter<CharSequence> modesAdapter = ArrayAdapter.createFromResource(MainActivity
                 .this, R.array.main_modes, android.R.layout.simple_spinner_dropdown_item);
         viewModeSpinner.setAdapter(modesAdapter);
@@ -68,42 +66,36 @@ public class MainActivity extends AppCompatActivity {
                 setMonthResult();
             }
         });
-        viewModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                if (pos == 0) {
-                    TodayViewFragment fragment = new TodayViewFragment();
-                    android.app.FragmentTransaction transaction = getFragmentManager()
-                            .beginTransaction();
-                    transaction.replace(R.id.main_frame, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
 
-                } else if (pos == 1) {
+    }
 
-                    MonthlyViewFragment fragment = new MonthlyViewFragment();
-                    android.app.FragmentTransaction transaction = getFragmentManager()
-                            .beginTransaction();
-                    transaction.replace(R.id.main_frame, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                } else if (pos == 2) {
+    @OnItemSelected(R.id.spinner)
+    public void onSpinnerClicked(int pos) {
+        if (pos == 0) {
+            TodayViewFragment fragment = new TodayViewFragment();
+            android.app.FragmentTransaction transaction = getFragmentManager()
+                    .beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
 
-                    OverviewFragment fragment = new OverviewFragment();
-                    android.app.FragmentTransaction transaction = getFragmentManager()
-                            .beginTransaction();
-                    transaction.replace(R.id.main_frame, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+        } else if (pos == 1) {
 
-            }
+            MonthlyViewFragment fragment = new MonthlyViewFragment();
+            android.app.FragmentTransaction transaction = getFragmentManager()
+                    .beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else if (pos == 2) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+            OverviewFragment fragment = new OverviewFragment();
+            android.app.FragmentTransaction transaction = getFragmentManager()
+                    .beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     @Override
